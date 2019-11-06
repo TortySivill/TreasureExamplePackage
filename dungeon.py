@@ -2,6 +2,7 @@
 import random
 import copy
 import argparse
+import sys
 
 class Dungeon:
 
@@ -52,8 +53,8 @@ def success_chance(dungeon):
 
 
 
-def main():
-    f = open("dungeon3.txt", "r")
+def main(argv):
+    f = open(argv, "r")
     contents =f.read()
     result = [x.strip() for x in contents.split(';')]
     name = result[0]
@@ -72,15 +73,13 @@ def main():
 
 
 
-
-
     network = network3
     
     dungeon = Dungeon(name, treasure, adventurer, troll, network)
     print(success_chance(dungeon))
 
 if __name__ == "__main__":
-
-    main()
+    argv = sys.argv[1]
+    main(argv)
 
 
