@@ -79,7 +79,9 @@ def main(argv):
     print(success_chance(dungeon))
 
 if __name__ == "__main__":
-    argv = sys.argv[1]
-    main(argv)
+    parser = argparse.ArgumentParser()
+    args = parser.parse_args()
+    print(args)
+    #main(argv)
 
 
