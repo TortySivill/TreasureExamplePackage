@@ -42,8 +42,8 @@ def run_to_result(dungeon):
     # don't run forever, return 0 (e.g. if there is no treasure and the troll can't reach the adventurer)
     return result
 
-def success_chance(dungeon):
-    trials=10000
+def success_chance(dungeon, sample):
+    trials=sample
     successes=0
     for _ in range(trials):
         outcome = run_to_result(dungeon)
@@ -53,8 +53,8 @@ def success_chance(dungeon):
 
 
 
-def main(argv):
-    f = open(argv, "r")
+def main(args):
+    f = open(args.filename, "r")
     contents =f.read()
     result = [x.strip() for x in contents.split(';')]
     name = result[0]
@@ -71,17 +71,17 @@ def main(argv):
                 temp.append(int(s))
         network3.append(temp)
 
-
-
     network = network3
     
     dungeon = Dungeon(name, treasure, adventurer, troll, network)
-    print(success_chance(dungeon))
+    sys.stdout.write("The chance of success is " + str(success_chance(dungeon,args.sample)) + "\n")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("filename", help="display a square of a given number",
+                    type=str)
+    parser.add_argument('--sample', help='sample size', default=10000, type=int)
     args = parser.parse_args()
-    print(args)
-    #main(argv)
+    main(args)
 
 
