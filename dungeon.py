@@ -1,39 +1,16 @@
 
 import random
 import copy
+import argparse
 
+class Dungeon:
 
-dungeon1 = {
-    'treasure' : [1], # Room 1 contains treasure
-    'adventurer': 0, # The adventurer starts in room 0 
-    'troll': 2, # The troll starts in room 2
-    'network': [[1], #Room zero connects to room 1
-                [0,2], #Room one connects to rooms 0 and 2
-                [1] ] #Room 2 connects to room 1
-}
-
-dungeon2 = {
-    'treasure' : [1], # Room 1 contains treasure
-    'adventurer': 0, # The adventurer starts in room 0 
-    'troll': 2, # The troll starts in room 2
-    'network': [[1], #Room zero connects to room 1
-                [0,2], #Room one connects to rooms 0 and 2
-                [1,3], #Room 2 connects to room 1 and 3
-                [2]] # Room 3 connects to room 2
-    
-}
-
-dungeon3 = {
-    'treasure' : [2], # Room 2 contains treasure
-    'adventurer': 0, # The adventurer starts in room 0 
-    'troll': 4, # The troll starts in room 4
-    'network': [[1], #Room zero connects to room 1
-                [0,2], #Room one connects to rooms 0 and 2
-                [1,3], #Room 2 connects to room 1 and 3
-                [2, 4], # Room 3 connects to room 2 and 4
-                [3]] # Room 4 connects to room 3 
-    
-}
+    def __init__(self, name, treasure, troll, adventurer, network):
+        self.name = name
+        self.adventurer = adventurer
+        self.treasure = treasure
+        self.troll = troll
+        self.network = network
 
 
 def random_move(network, current_loc):
@@ -41,14 +18,14 @@ def random_move(network, current_loc):
     return random.choice(targets)
 
 def update_dungeon(dungeon):
-    dungeon['adventurer']=random_move(dungeon['network'], dungeon['adventurer'])
-    dungeon['troll']=random_move(dungeon['network'], dungeon['troll'])
+    dungeon.adventurer=random_move(dungeon.network, dungeon.adventurer)
+    dungeon.troll=random_move(dungeon.network, dungeon.troll)
 
 
 def outcome(dungeon):
-    if dungeon['adventurer']==dungeon['troll']:
+    if dungeon.adventurer==dungeon.troll:
         return -1
-    if dungeon['adventurer'] in dungeon['treasure']:
+    if dungeon.adventurer in dungeon.treasure:
         return 1
     return 0
 
@@ -74,4 +51,36 @@ def success_chance(dungeon):
     return successes/trials
 
 
-print(success_chance(dungeon2))
+
+def main():
+    f = open("dungeon3.txt", "r")
+    contents =f.read()
+    result = [x.strip() for x in contents.split(';')]
+    name = result[0]
+    treasure = [int(result[1])]
+    adventurer = int(result[2])
+    troll = int(result[3])
+    network = result[4]
+    network2 = [[x.strip()] for x in network.split('\n')]
+    network3 = []
+    for x in network2:
+        temp = []
+        for s in str(x):
+            if s.isdigit():
+                temp.append(int(s))
+        network3.append(temp)
+
+
+
+
+
+    network = network3
+    
+    dungeon = Dungeon(name, treasure, adventurer, troll, network)
+    print(success_chance(dungeon))
+
+if __name__ == "__main__":
+
+    main()
+
+
