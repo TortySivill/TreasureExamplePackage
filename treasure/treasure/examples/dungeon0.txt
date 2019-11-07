@@ -1,0 +1,5 @@
+
+dungeon1; 1; 0; 2; 2, # The troll starts in room 2
+1
+0 2
+1

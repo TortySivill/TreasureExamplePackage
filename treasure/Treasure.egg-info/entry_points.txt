@@ -1,0 +1,3 @@
+[console_scripts]
+dungeon = treasure.dungeon:main
+
